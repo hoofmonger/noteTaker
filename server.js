@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
     await fs.promises.writeFile('./db/db.json', notesArrayString)
     res.send(newNote)
   });
-
+//notesArray is the only way it adds correctly, requires a refresh
 
 app.listen(PORT, ()=> console.log(
   `listening on ${PORT}`
