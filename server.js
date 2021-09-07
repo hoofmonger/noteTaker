@@ -13,24 +13,26 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-// app.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'index.html'));
-//   });
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+  });
 
 
   app.get('/api/notes', (req, res) => res.json(database));
+  app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/notes.html'));
+  });
   app.get('/notes', (req, res) => res.json(database));
 
-app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, 'notes.html'));
-  });
+
 
   app.post('/api/notes', async(req, res) => {
     const notes = await fs.promises.readFile('./db/db.json', 'utf8')
     const notesArray = JSON.parse(notes)
+    console.log(req)
     const newNote = req.body
     const newId = uuidv4()
-    newNote[0].id = newId
+    notesArray[notesArray.length -1].id = newId
     notesArray.push(newNote)
     const notesArrayString = JSON.stringify(notesArray)
     await fs.promises.writeFile('./db/db.json', notesArrayString)
